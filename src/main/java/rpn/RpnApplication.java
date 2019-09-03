@@ -22,6 +22,8 @@ public class RpnApplication {
 
         RpnContext context = new RpnContext();
 
+        System.out.println("rpn started, pls input");
+
         while (scanner.hasNextLine()) {
             try {
                 RpnExecutor.execute(context, operators, scanner.nextLine());
