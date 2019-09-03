@@ -8,4 +8,9 @@ public class RpnException extends Exception {
         this.remainingExpression = remainingExpression;
     }
 
+    public RpnException(String message) {
+        super(message);
+        this.remainingExpression = null;
+    }
+
 }

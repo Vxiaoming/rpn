@@ -40,17 +40,22 @@ public class RpnExecutor {
                     "operator <" + numberOrOp + "> (position: <" + (2*position + 1) + ">): insufficient parameters",
                     Arrays.asList(inputs).subList(position + 1, inputs.length).stream().reduce((a, b) -> a + " " + b).orElse("")
             );
+        } catch (RpnException e) {
+            throw new RpnException(
+                    e.getMessage() + ": operator <" + numberOrOp + "> (position: <" + (2*position + 1) + ">)",
+                    Arrays.asList(inputs).subList(position + 1, inputs.length).stream().reduce((a, b) -> a + " " + b).orElse("")
+            );
         }
     }
 
-    private static void operate(RpnContext rpnContext, Operator operator, BigDecimal... args) {
+    private static void operate(RpnContext rpnContext, Operator operator, BigDecimal... args) throws RpnException {
         if (! (operator instanceof Undo || operator instanceof SimpleConsolePrinter)) {
             rpnContext.getLog().push((Stack<BigDecimal>) rpnContext.getNumberStack().clone());
         }
 
         try {
             operator.operate(rpnContext, args);
-        } catch (EmptyStackException e) {
+        } catch (EmptyStackException | RpnException e) {
             if (rpnContext.getLog().size() > 0) {
                 rpnContext.resetBack(1);
             }
