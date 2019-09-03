@@ -9,7 +9,7 @@ public class SimpleConsolePrinter implements Operator {
     public void operate(RpnContext context, BigDecimal... args) {
 
         String stack = context.getNumberStack().stream()
-                .map(number -> number.setScale(10, BigDecimal.ROUND_HALF_EVEN).stripTrailingZeros().toString())
+                .map(number -> number.setScale(10, BigDecimal.ROUND_HALF_EVEN).stripTrailingZeros().toPlainString())
                 .reduce((a, b) -> a + " " + b)
                 .orElse("");
 
